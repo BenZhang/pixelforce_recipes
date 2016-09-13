@@ -1,0 +1,44 @@
+#!/bin/bash
+
+USER="deploy"
+PROJECT_PATH="<%= deploy_to %>"
+NAME=delayed_job
+DESC="Delayed Job for $USER"
+export RAILS_ENV=production
+PID="$PROJECT_PATH/shared/pids/delayed_job.pid"
+
+case "$1" in
+  start)
+    CD_TO_APP_DIR="cd $PROJECT_PATH/current"
+    START_DAEMON_PROCESS="bundle exec ./script/delayed_job -n 1 start"
+
+    echo -n "Starting $DESC: "
+    if [ `whoami` = 'root' ]; then
+      su - $USER -c "$CD_TO_APP_DIR > /dev/null 2>&1 && $START_DAEMON_PROCESS"
+    else
+      $CD_TO_APP_DIR > /dev/null 2>&1 && $START_DAEMON_PROCESS
+    fi
+    echo "$NAME."
+    ;;
+  stop)
+    echo -n "Stopping $DESC: "
+    kill -QUIT `cat $PID`
+    echo "$NAME."
+    ;;
+  restart)
+    echo -n "Restarting $DESC: "
+    kill -USR2 `cat $PID`
+    echo "$NAME."
+    ;;
+  reload)
+    echo -n "Reloading $DESC configuration: "
+    kill -HUP `cat $PID`
+    echo "$NAME."
+    ;;
+  *)
+    echo "Usage: $NAME {start|stop|restart|reload}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0
