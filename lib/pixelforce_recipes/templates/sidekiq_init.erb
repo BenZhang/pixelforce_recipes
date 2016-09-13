@@ -1,0 +1,50 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          sidekiq
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the sidekiq web server
+# Description:       starts sidekiq
+### END INIT INFO
+
+USER="deploy"
+DAEMON=sidekiq
+PROJECT_PATH="<%= deploy_to %>"
+NAME=sidekiq
+DESC="Sidekiq app for $USER"
+PID="$PROJECT_PATH/shared/pids/sidekiq.pid"
+LOGFILE="$PROJECT_PATH/shared/log/sidekiq.log"
+
+case "$1" in
+  start)
+        CD_TO_APP_DIR="cd $PROJECT_PATH/current"
+        START_DAEMON_PROCESS="bundle exec sidekiq -d -e production -L $LOGFILE -P $PID"
+
+        echo -n "Starting $DESC: "
+        if [ `whoami` = 'root' ]; then
+          su - $USER -c "$CD_TO_APP_DIR > /dev/null 2>&1 && $START_DAEMON_PROCESS"
+        else
+          $CD_TO_APP_DIR > /dev/null 2>&1 && $START_DAEMON_PROCESS
+        fi
+        echo "$NAME."
+        ;;
+  stop)
+        echo -n "Stopping $DESC: "
+        kill -INT `cat $PID`
+        echo "$NAME."
+        ;;
+  reload)
+        echo -n "Reloading $DESC configuration: "
+        kill -HUP `cat $PID`
+        echo "$NAME."
+        ;;
+  *)
+        echo "Usage: $NAME {start|stop|restart|reload}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
