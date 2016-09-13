@@ -1,8 +1,6 @@
-# PixelforceRecipes
+# Pixelforce Recipes
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pixelforce_recipes`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Pixelforce Recipes implements Capistrano recipes for Unicorn & Ngnix, Sidekiq deployment.
 
 ## Installation
 
@@ -21,8 +19,10 @@ Or install it yourself as:
     $ gem install pixelforce_recipes
 
 ## Usage
-
-TODO: Write usage instructions here
+add below code to deploy.rb
+```ruby
+require 'pixelforce_recipes'
+```
 
 ## Development
 
