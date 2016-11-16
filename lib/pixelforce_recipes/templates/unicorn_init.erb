@@ -10,7 +10,7 @@
 # Description:       starts unicorn
 ### END INIT INFO
 
-USER="deploy"
+USER="<%= user %>"
 DAEMON=unicorn
 PROJECT_PATH="<%= deploy_to %>"
 DAEMON_OPTS="-c $PROJECT_PATH/current/config/unicorn.rb -E <%= rails_env %> -D"
