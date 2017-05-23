@@ -33,14 +33,13 @@ case "$1" in
         ;;
   stop)
         echo -n "Stopping $DESC: "
-        kill -INT `cat $PID`
+        f [ `whoami` = 'root' ]; then
+          su - $USER -c "$CD_TO_APP_DIR && bundle exec sidekiqctl stop $PID 60"
+        else
+          /bin/bash -l -c "$CD_TO_APP_DIR && bundle exec sidekiqctl stop $PID 60"
+        fi
         echo "$NAME."
-        ;;
-  reload)
-        echo -n "Reloading $DESC configuration: "
-        kill -HUP `cat $PID`
-        echo "$NAME."
-        ;;
+        ;;  
   *)
         echo "Usage: $NAME {start|stop|restart|reload}" >&2
         exit 1
