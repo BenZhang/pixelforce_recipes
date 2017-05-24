@@ -33,7 +33,7 @@ case "$1" in
         ;;
   stop)
         echo -n "Stopping $DESC: "
-        f [ `whoami` = 'root' ]; then
+        if [ `whoami` = 'root' ]; then
           su - $USER -c "$CD_TO_APP_DIR && bundle exec sidekiqctl stop $PID 60"
         else
           /bin/bash -l -c "$CD_TO_APP_DIR && bundle exec sidekiqctl stop $PID 60"
