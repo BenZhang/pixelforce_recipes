@@ -17,10 +17,10 @@ NAME=sidekiq
 DESC="Sidekiq app for $USER"
 PID="$PROJECT_PATH/shared/pids/sidekiq.pid"
 LOGFILE="$PROJECT_PATH/shared/log/sidekiq.log"
+CD_TO_APP_DIR="cd $PROJECT_PATH/current"
 
 case "$1" in
   start)
-        CD_TO_APP_DIR="cd $PROJECT_PATH/current"
         START_DAEMON_PROCESS="bundle exec sidekiq -d -e production -L $LOGFILE -P $PID"
 
         echo -n "Starting $DESC: "
