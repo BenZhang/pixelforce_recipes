@@ -1,0 +1,40 @@
+upstream <%= application %> {
+  server unix:///home/ubuntu/<%= application %>/shared/sockets/<%= application %>.sock;
+}
+
+server {
+  listen 80 default_server deferred;
+  server_name <%= server_address %>;
+
+  root /home/ubuntu/<%= application %>/current/public;
+  access_log /home/ubuntu/<%= application %>/current/log/nginx.access.log;
+  error_log /home/ubuntu/<%= application %>/current/log/nginx.error.log info;
+
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
+
+  try_files $uri $uri @<%= application %>;
+  location @<%= application %> {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_buffering    on;
+    proxy_set_header   X-Real-IP        $remote_addr;
+
+    proxy_pass http://<%= application %>;
+  }
+
+  location /cable {
+    proxy_pass http://<%= application %>;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+  }
+
+  error_page 500 502 503 504 /500.html;
+  client_max_body_size 10M;
+  keepalive_timeout 10;
+}
