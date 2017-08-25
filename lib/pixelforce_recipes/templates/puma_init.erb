@@ -13,7 +13,7 @@
 USER="<%= user %>"
 DAEMON=puma
 PROJECT_PATH="<%= deploy_to %>"
-DAEMON_OPTS="-C $PROJECT_PATH/current/config/puma.rb -e <%= rails_env %>"
+DAEMON_OPTS="-e <%= rails_env %>"
 NAME=puma
 DESC="puma app for $USER"
 PID="$PROJECT_PATH/shared/pids/puma.pid"
