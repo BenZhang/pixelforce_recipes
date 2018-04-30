@@ -12,6 +12,7 @@ if Capistrano::Configuration.instance(false)
         run "#{sudo} update-rc.d #{application} defaults"
         template "nginx_puma_config.erb", "/tmp/nginx_puma_config"
         run "#{sudo} mv /tmp/nginx_puma_config /etc/nginx/sites-enabled/#{application}"
+        template "logrotate.erb"
       end
       # after "deploy:setup", "nginx:setup"
       

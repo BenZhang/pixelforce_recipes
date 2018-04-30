@@ -1,0 +1,8 @@
+<%= deploy_to %>/shared/log/*.log {
+  daily
+  missingok
+  copytruncate
+  rotate 7
+  compress
+  notifempty
+}

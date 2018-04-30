@@ -1,14 +1,14 @@
 upstream <%= application %> {
-  server unix:///home/ubuntu/<%= application %>/shared/sockets/<%= application %>.sock;
+  server unix:/tmp/<%= application %>.sock fail_timeout=0;
 }
 
 server {
   listen 80 default_server deferred;
   server_name <%= server_address %>;
 
-  root /home/ubuntu/<%= application %>/current/public;
-  access_log /home/ubuntu/<%= application %>/current/log/nginx.access.log;
-  error_log /home/ubuntu/<%= application %>/current/log/nginx.error.log info;
+  root <%= deploy_to %>/current/public;
+  access_log <%= deploy_to %>/current/log/nginx.access.log;
+  error_log <%= deploy_to %>/current/log/nginx.error.log info;
 
   location ^~ /assets/ {
     gzip_static on;
