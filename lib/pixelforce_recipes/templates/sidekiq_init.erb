@@ -21,7 +21,7 @@ CD_TO_APP_DIR="cd $PROJECT_PATH/current"
 
 case "$1" in
   start)
-        START_DAEMON_PROCESS="bundle exec sidekiq -d -e production -L $LOGFILE -P $PID"
+        START_DAEMON_PROCESS="bundle exec sidekiq -d -e <%= rails_env %> -L $LOGFILE -P $PID"
 
         echo -n "Starting $DESC: "
         if [ `whoami` = 'root' ]; then
