@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ### BEGIN INIT INFO
-# Provides:          <%= application %>
+# Provides:          <%= fetch(:application) %>
 # Required-Start:    $local_fs $remote_fs $network $syslog
 # Required-Stop:     $local_fs $remote_fs $network $syslog
 # Default-Start:     2 3 4 5
@@ -10,10 +10,10 @@
 # Description:       starts puma
 ### END INIT INFO
 
-USER="<%= user %>"
+USER="<%= fetch(:user) %>"
 DAEMON=puma
-PROJECT_PATH="<%= deploy_to %>"
-DAEMON_OPTS="-e <%= rails_env %>"
+PROJECT_PATH="<%= fetch(:deploy_to) %>"
+DAEMON_OPTS="-e <%= fetch(:rails_env) %>"
 NAME=puma
 DESC="puma app for $USER"
 PID="$PROJECT_PATH/shared/pids/puma.pid"

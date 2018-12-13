@@ -1,4 +1,4 @@
-<%= deploy_to %>/shared/log/*.log {
+<%= fetch(:deploy_to) %>/shared/log/*.log {
   daily
   missingok
   copytruncate
