@@ -1,28 +1,27 @@
 #!/bin/bash
 
 ### BEGIN INIT INFO
-# Provides:          sidekiq
+# Provides:          resque
 # Required-Start:    $local_fs $remote_fs $network $syslog
 # Required-Stop:     $local_fs $remote_fs $network $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: starts the sidekiq web server
-# Description:       starts sidekiq
+# Short-Description: resque worker via init.d
+# Description:       starts resque
 ### END INIT INFO
 
 USER="deploy"
-DAEMON=sidekiq
 PROJECT_PATH="<%= fetch(:deploy_to) %>"
-NAME=sidekiq
-DESC="Sidekiq app for $USER"
-PID="$PROJECT_PATH/shared/pids/sidekiq.pid"
-LOGFILE="$PROJECT_PATH/shared/log/sidekiq.log"
+NAME=resque
+DESC="Resque app for $USER"
+PID="$PROJECT_PATH/shared/pids/resque.pid"
+LOGFILE="$PROJECT_PATH/shared/log/resque.log"
 CD_TO_APP_DIR="cd $PROJECT_PATH/current"
+
 
 case "$1" in
   start)
-        START_DAEMON_PROCESS="bundle exec sidekiq -d -e <%= fetch(:rails_env) %> -L $LOGFILE -P $PID"
-
+        START_DAEMON_PROCESS="bundle exec rake RAILS_ENV=<%= fetch(:rails_env) %> QUEUE='*' PIDFILE=$PID BACKGROUND=yes environment resque:work 2>&1 > $LOGFILE"
         echo -n "Starting $DESC: "
         if [ `whoami` = 'root' ]; then
           su - $USER -c "$CD_TO_APP_DIR > /dev/null 2>&1 && $START_DAEMON_PROCESS"
@@ -32,14 +31,15 @@ case "$1" in
         echo "$NAME."
         ;;
   stop)
+        STOP_DAEMON_PROCESS="test -f $PID && kill -s QUIT `cat $PID` && rm -f $PID"
         echo -n "Stopping $DESC: "
         if [ `whoami` = 'root' ]; then
-          su - $USER -c "$CD_TO_APP_DIR && bundle exec sidekiqctl stop $PID 60"
+          su - $USER -c "$CD_TO_APP_DIR && $STOP_DAEMON_PROCESS"
         else
-          /bin/bash -l -c "$CD_TO_APP_DIR && bundle exec sidekiqctl stop $PID 60"
+          /bin/bash -l -c "$CD_TO_APP_DIR && $STOP_DAEMON_PROCESS"
         fi
         echo "$NAME."
-        ;;  
+        ;;
   *)
         echo "Usage: $NAME {start|stop|restart|reload}" >&2
         exit 1
