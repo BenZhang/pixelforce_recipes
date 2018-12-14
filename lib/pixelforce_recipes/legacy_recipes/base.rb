@@ -3,7 +3,7 @@ if Capistrano::Configuration.instance(false)
   Capistrano::Configuration.instance(true).load do |instance|
 
     def template(from, to)
-      erb = File.read(File.expand_path("../templates/#{from}", __FILE__))
+      erb = File.read(File.expand_path("../../templates/#{from}", __FILE__))
       put ERB.new(erb).result(binding), to
     end
 
