@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pixelforce_recipes (1.4)
+    pixelforce_recipes (1.5)
       capistrano (> 2.0.0)
 
 GEM
