@@ -13,7 +13,7 @@
 USER="<%= fetch(:user) %>"
 DAEMON=puma
 PROJECT_PATH="<%= fetch(:deploy_to) %>"
-DAEMON_OPTS="-e <%= fetch(:rails_env) %>"
+DAEMON_OPTS="-e <%= fetch(:rails_env) %> -d"
 NAME=puma
 DESC="puma app for $USER"
 PID="$PROJECT_PATH/shared/pids/puma.pid"
