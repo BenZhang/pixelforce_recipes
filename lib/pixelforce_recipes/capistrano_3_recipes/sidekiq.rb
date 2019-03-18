@@ -14,7 +14,7 @@ namespace :sidekiq do
   %w[start stop restart].each do |command|
     desc "#{command} sidekiq"
     task command do
-      on roles(:resque) do
+      on roles(:sidekiq) do
         execute "/etc/init.d/sidekiq #{command}"
       end
     end
