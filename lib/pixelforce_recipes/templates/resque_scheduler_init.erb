@@ -1,0 +1,49 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          resque scheduler
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: resque scheduler worker via init.d
+# Description:       starts resque scheduler
+### END INIT INFO
+
+USER="deploy"
+PROJECT_PATH="<%= fetch(:deploy_to) %>"
+NAME="resque_scheduler"
+DESC="Resque Scheduler for $USER"
+PID="$PROJECT_PATH/shared/pids/resque_scheduler.pid"
+LOGFILE="$PROJECT_PATH/shared/log/resque.log"
+CD_TO_APP_DIR="cd $PROJECT_PATH/current"
+
+
+case "$1" in
+  start)
+        START_DAEMON_PROCESS="bundle exec rake RAILS_ENV=<%= fetch(:rails_env) %> QUEUE='*' PIDFILE=$PID BACKGROUND=yes environment resque:scheduler 2>&1 > $LOGFILE"
+        echo -n "Starting $DESC: "
+        if [ `whoami` = 'root' ]; then
+          su - $USER -c "$CD_TO_APP_DIR > /dev/null 2>&1 && $START_DAEMON_PROCESS"
+        else
+          /bin/bash -l -c "$CD_TO_APP_DIR > /dev/null 2>&1 && $START_DAEMON_PROCESS"
+        fi
+        echo "$NAME."
+        ;;
+  stop)
+        STOP_DAEMON_PROCESS="test -f $PID && kill -s QUIT `cat $PID` && rm -f $PID"
+        echo -n "Stopping $DESC: "
+        if [ `whoami` = 'root' ]; then
+          su - $USER -c "$CD_TO_APP_DIR && $STOP_DAEMON_PROCESS"
+        else
+          /bin/bash -l -c "$CD_TO_APP_DIR && $STOP_DAEMON_PROCESS"
+        fi
+        echo "$NAME."
+        ;;
+  *)
+        echo "Usage: $NAME {start|stop|restart|reload}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
