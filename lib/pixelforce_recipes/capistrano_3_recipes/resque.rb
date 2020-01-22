@@ -4,10 +4,10 @@ namespace :resque do
   desc "Setup resque configuration for this application"
   task :setup do
     on roles(:resque) do
-      template "resque_init.erb", "/tmp/resque"
-      sudo "mv /tmp/resque /etc/init.d/resque"
-      sudo "chmod +x /etc/init.d/resque"
-      sudo "update-rc.d resque defaults"
+      template "resque_supervisor.erb", "/tmp/resque"
+      sudo "mv /tmp/resque /etc/supervisor/conf.d/resque"
+      sudo "supervisorctl reread"
+      sudo "supervisorctl update" # it will auto start the application
     end
   end
 
@@ -15,7 +15,7 @@ namespace :resque do
     desc "#{command} resque"
     task command do
       on roles(:resque) do
-        execute "/etc/init.d/resque #{command}"
+        execute "supervisorctl #{command} resque"
       end
     end
   end
