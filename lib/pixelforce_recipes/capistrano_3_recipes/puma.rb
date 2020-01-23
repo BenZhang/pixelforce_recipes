@@ -1,4 +1,4 @@
-namespace :puma do
+namespace :pf_puma do
 
   desc "Setup puma configuration for this application"
   task :setup do
