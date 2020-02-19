@@ -34,9 +34,10 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pixelforce_recipes. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-## Integrate with supervisor
+## supervisor support
 
-The recipes for capistrano3 have been upgrade to supervisor from init script.
+The recipes for capistrano3 with supervisor support.   
+Please use `process:supervisor:task` to invoke it.   
 They relied on some capistrano plugins for some variables
 
 * [**rvm**](https://github.com/capistrano/rvm) for `rvm_ruby_version`
@@ -51,6 +52,9 @@ set :logfile_maxbytes, '1GB'
 set :logfile_backups, '10'
 ```
 
+## sysvinit support
+
+Please use `process:sysvinit:task` to invoke it.
 
 ## License
 
