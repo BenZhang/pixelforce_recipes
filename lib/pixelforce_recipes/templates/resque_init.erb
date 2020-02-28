@@ -10,7 +10,7 @@
 # Description:       starts resque
 ### END INIT INFO
 
-USER="deploy"
+USER="<%= fetch(:user) %>"
 PROJECT_PATH="<%= fetch(:deploy_to) %>"
 NAME=resque
 DESC="Resque app for $USER"

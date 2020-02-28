@@ -10,7 +10,7 @@
 # Description:       starts sidekiq
 ### END INIT INFO
 
-USER="deploy"
+USER="<%= fetch(:user) %>"
 DAEMON=sidekiq
 PROJECT_PATH="<%= fetch(:deploy_to) %>"
 NAME=sidekiq
