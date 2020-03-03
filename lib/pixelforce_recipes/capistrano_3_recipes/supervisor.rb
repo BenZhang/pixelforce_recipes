@@ -1,4 +1,4 @@
-namespace :logrotate do
+namespace :supervisor do
   desc "Setup supervisor configuration for this application"
   task :setup do
     on roles(:app) do
