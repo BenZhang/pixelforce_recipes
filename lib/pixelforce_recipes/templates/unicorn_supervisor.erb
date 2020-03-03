@@ -2,7 +2,7 @@
 user=<%= fetch(:user) %>
 environment=HOME="/home/<%= fetch(:user) %>",USER="<%= fetch(:user) %>"
 directory=<%= fetch(:deploy_to) %>/current
-command=/home/<%= fetch(:user) %>/.rvm/bin/rvm <%= fetch(:rvm_ruby_version, '2.4.7') %> do bundle exec unicorn -c <%= fetch(:deploy_to) %>/config/unicorn.rb -E <%= fetch(:rails_env) %>
+command=/home/<%= fetch(:user) %>/.rvm/bin/rvm <%= fetch(:rvm_ruby_version, '2.4.7') %> do bundle exec unicornherder -u unicorn -p <%= fetch(:deploy_to) %>/shared/pids/unicorn.pid -- -c config/unicorn.rb -E <%= fetch(:rails_env) %>
 autostart=<%= fetch(:autostart, 'true') %>
 autorestart=<%= fetch(:autorestart, 'true') %>
 startsecs=5
