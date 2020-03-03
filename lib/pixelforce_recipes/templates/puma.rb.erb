@@ -6,16 +6,15 @@ environment '<%= fetch(:rails_env, 'production') %>'
 tag '<%= fetch(:application)%>'
 pidfile "#{shared_path}/pids/puma.pid"
 state_path "#{shared_path}/pids/puma.state"
-stdout_redirect '<%=fetch(:puma_access_log)%>', '<%=fetch(:puma_error_log)%>', true
+stdout_redirect "#{shared_path}/log/puma_access.log", "#{shared_path}/log/puma_error.log", true
 
-
-threads <%= fetch(:puma_threads).join(',')%>
+threads <%= fetch(:puma_threads, [0, 1]).join(',')%>
 
 bind "unix:///tmp/<%= fetch(:application)%>.sock"
 
 activate_control_app "unix://#{shared_path}/tmp/sockets/pumactl.sock"
 
-workers <%= fetch(:puma_workers) %>
+workers <%= fetch(:puma_workers, 2) %>
 
 preload_app!
 
