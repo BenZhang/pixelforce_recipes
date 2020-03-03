@@ -1,6 +1,12 @@
-namespace :pf_puma do
+namespace :puma do
 
   desc "Setup puma configuration for this application"
+  task :config do
+    on roles(:web) do
+      template "puma.rb.erb", "/tmp/puma_conf"
+      sudo "mv /tmp/puma_conf #{shared_path}/config"
+    end
+  end
   namespace :sysvinit do
     task :setup do
       on roles(:web) do
@@ -13,7 +19,7 @@ namespace :pf_puma do
       end
     end
 
-    %w[start stop restart].each do |command|
+    %w[start stop restart reload].each do |command|
       desc "#{command} puma"
       task command do
         on roles(:web) do
@@ -34,12 +40,24 @@ namespace :pf_puma do
       end
     end
 
-    %w[start stop restart].each do |command|
-      desc "#{command} puma"
-      task command do
-        on roles(:web) do
-          execute "supervisorctl #{command} #{fetch(:application)}"
-        end
+    task :start do
+      on roles(:web) do
+        execute "supervisorctl start #{fetch(:application)}"
+      end
+    end
+    task :stop do
+      on roles(:web) do
+        execute "supervisorctl signal INT #{fetch(:application)}"
+      end
+    end
+    task :restart do
+      on roles(:web) do
+        execute "supervisorctl signal USR1 #{fetch(:application)}"
+      end
+    end
+    task :reload do
+      on roles(:web) do
+        execute "supervisorctl signal USR2 #{fetch(:application)}"
       end
     end
   end

@@ -12,7 +12,7 @@ namespace :unicorn do
       end
     end
 
-    %w[start stop restart].each do |command|
+    %w[start stop restart reload].each do |command|
       desc "#{command} unicorn"
       task command do
         on roles(:web) do
@@ -34,14 +34,25 @@ namespace :unicorn do
       end
     end
 
-    %w[start stop restart].each do |command|
-      desc "#{command} unicorn"
-      task command do
-        on roles(:web) do
-          execute "supervisorctl #{command} #{fetch(:application)}"
-        end
+    task :start do
+      on roles(:web) do
+        execute "supervisorctl start #{fetch(:application)}"
+      end
+    end
+    task :stop do
+      on roles(:web) do
+        execute "supervisorctl signal QUIT #{fetch(:application)}"
+      end
+    end
+    task :restart do
+      on roles(:web) do
+        execute "supervisorctl signal USR2 #{fetch(:application)}"
+      end
+    end
+    task :reload do
+      on roles(:web) do
+        execute "supervisorctl signal HUP #{fetch(:application)}"
       end
     end
   end
-
 end

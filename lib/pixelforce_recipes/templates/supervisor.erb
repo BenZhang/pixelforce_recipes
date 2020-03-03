@@ -1,0 +1,19 @@
+; Generated with pixelforce recipies
+[unix_http_server]
+file=/tmp/supervisor.sock    ; (the path to the socket file)
+chmod=0700                   ; sockef file mode (default 0700)
+
+[supervisord]
+user=<%= fetch(:user) %>
+logfile=/tmp/supervisord.log ; (main log file;default $CWD/supervisord.log)
+pidfile=/tmp/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl=unix:///tmp/supervisor.sock
+
+[include]
+files = /etc/supervisor/conf.d/*.conf
+

@@ -7,7 +7,7 @@ if defined?(Capistrano::VERSION)
     require File.expand_path("#{File.dirname(__FILE__)}/pixelforce_recipes/capistrano_3_recipes/sidekiq")
     require File.expand_path("#{File.dirname(__FILE__)}/pixelforce_recipes/capistrano_3_recipes/resque")
     require File.expand_path("#{File.dirname(__FILE__)}/pixelforce_recipes/capistrano_3_recipes/resque_scheduler")
-    require File.expand_path("#{File.dirname(__FILE__)}/pixelforce_recipes/capistrano_3_recipes/logrotate")
+    require File.expand_path("#{File.dirname(__FILE__)}/pixelforce_recipes/capistrano_3_recipes/supervisor")
     require File.expand_path("#{File.dirname(__FILE__)}/pixelforce_recipes/capistrano_3_recipes/unicorn")
     require File.expand_path("#{File.dirname(__FILE__)}/pixelforce_recipes/capistrano_3_recipes/puma")
   else

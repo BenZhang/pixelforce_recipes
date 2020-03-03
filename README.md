@@ -41,7 +41,6 @@ Please use `process:supervisor:task` to invoke it.
 They relied on some capistrano plugins for some variables
 
 * [**rvm**](https://github.com/capistrano/rvm) for `rvm_ruby_version`
-* [**capistrano-puma**](https://github.com/seuros/capistrano-puma) for puma default configuration path `shared/puma.rb`
 
 Tweak some option for supervisor, the following value is default
 
@@ -50,6 +49,19 @@ set :autostart, 'true'
 set :autorestart, 'true'
 set :logfile_maxbytes, '1GB'
 set :logfile_backups, '10'
+```
+
+#### unicorn
+
+Relied on unicornherder for supervisor monitoring.
+
+#### puma
+
+Get rid of capistrano-puma, and now generate puma config itself.
+
+```ruby
+set :puma_threads, [0, 1]
+set :puma_workers, 2
 ```
 
 ## sysvinit support

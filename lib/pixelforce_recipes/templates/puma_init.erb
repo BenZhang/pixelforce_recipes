@@ -13,7 +13,7 @@
 USER="<%= fetch(:user) %>"
 DAEMON=puma
 PROJECT_PATH="<%= fetch(:deploy_to) %>"
-DAEMON_OPTS="-e <%= fetch(:rails_env) %> -d"
+DAEMON_OPTS="-C $PROJECT_PATH/shared/config/puma.rb -e <%= fetch(:rails_env) %> -d"
 NAME=puma
 DESC="puma app for $USER"
 PID="$PROJECT_PATH/shared/pids/puma.pid"
@@ -33,17 +33,17 @@ case "$1" in
         ;;
   stop)
         echo -n "Stopping $DESC: "
-        kill -QUIT `cat $PID`
+        kill -INT `cat $PID`
         echo "$NAME."
         ;;
   restart)
         echo -n "Restarting $DESC: "
-        kill -USR2 `cat $PID`
+        kill -USR1 `cat $PID`
         echo "$NAME."
         ;;
   reload)
         echo -n "Reloading $DESC configuration: "
-        kill -HUP `cat $PID`
+        kill -USR2 `cat $PID`
         echo "$NAME."
         ;;
   *)

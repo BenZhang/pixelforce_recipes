@@ -10,7 +10,7 @@
 # Description:       starts resque scheduler
 ### END INIT INFO
 
-USER="deploy"
+USER="<%= fetch(:user) %>"
 PROJECT_PATH="<%= fetch(:deploy_to) %>"
 NAME="resque_scheduler"
 DESC="Resque Scheduler for $USER"
