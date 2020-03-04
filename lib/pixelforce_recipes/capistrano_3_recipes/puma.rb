@@ -4,7 +4,7 @@ namespace :puma do
   task :config do
     on roles(:web) do
       template "puma.rb.erb", "/tmp/puma_conf"
-      sudo "mv /tmp/puma_conf #{shared_path}/config"
+      sudo "mv /tmp/puma_conf #{shared_path}/config/puma.rb"
     end
   end
   namespace :sysvinit do
