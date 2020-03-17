@@ -39,5 +39,17 @@ namespace :sidekiq do
         end
       end
     end
+    task :unload do
+      desc "tell sidekiq stop receive new jobs, called at the beginning"
+      on roles(:sidekiq) do
+        execute "supervisorctl signal TSTP sidekiq"
+      end
+    end
+    task :rolling_restart do
+      desc "used for rolling restart, only available on enterprise version"
+      on roles(:sidekiq) do
+        execute "supervisorctl signal USR2 sidekiq"
+      end
+    end
   end
 end
