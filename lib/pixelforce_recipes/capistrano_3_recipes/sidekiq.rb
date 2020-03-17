@@ -25,7 +25,7 @@ namespace :sidekiq do
     task :setup do
       on roles(:sidekiq) do
         template "sidekiq_supervisor.erb", "/tmp/sidekiq"
-        sudo "mv /tmp/sidekiq /etc/supervisor/conf.d/sidekiq"
+        sudo "mv /tmp/sidekiq /etc/supervisor/conf.d/sidekiq.conf"
         sudo "supervisorctl reread"
         sudo "supervisorctl update" # it will auto start the application
       end

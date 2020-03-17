@@ -32,7 +32,7 @@ namespace :puma do
     task :setup do
       on roles(:web) do
         template "puma_supervisor.erb", "/tmp/puma"
-        sudo "mv /tmp/puma /etc/supervisor/conf.d/#{fetch(:application)}"
+        sudo "mv /tmp/puma /etc/supervisor/conf.d/#{fetch(:application)}.conf"
         sudo "supervisorctl reread"
         sudo "supervisorctl update" # it will auto start the application
         template "nginx_puma_config.erb", "/tmp/nginx_puma_config"
