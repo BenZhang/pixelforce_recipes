@@ -7,7 +7,7 @@ autostart=<%= fetch(:autostart, 'true') %>
 autorestart=<%= fetch(:autorestart, 'true') %>
 startsecs=5
 startretries=3
-stderr_logfile=<%= fetch(:deploy_to) %>/shared/log/puma.error.log
-stdout_logfile=<%= fetch(:deploy_to) %>/shared/log/puma.access.log
+stderr_logfile=<%= fetch(:deploy_to) %>/shared/log/<%= fetch(:application) %>.log
+stdout_logfile=<%= fetch(:deploy_to) %>/shared/log/<%= fetch(:rails_env) %>.log
 stdout_logfile_maxbytes=<%= fetch(:logfile_maxbytes, '5GB') %>
 stdout_logfile_backups=<%= fetch(:logfile_backups, '10') %>
