@@ -56,7 +56,7 @@ namespace :sidekiq do
       desc "#{command} sidekiq"
       task command do
         on roles(:sidekiq) do
-          execute "supervisorctl #{command} sidekiq:*"
+          execute "supervisorctl #{command.split('_')[0]} sidekiq:*"
         end
       end
     end
