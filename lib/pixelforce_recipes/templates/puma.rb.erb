@@ -1,18 +1,18 @@
 #!/usr/bin/env puma
 
 directory '<%= current_path %>'
-rackup "#{current_path}/config.ru"
+rackup '<%= current_path %>/config.ru'
 environment '<%= fetch(:rails_env, 'production') %>'
 tag '<%= fetch(:application)%>'
-pidfile "#{shared_path}/pids/puma.pid"
-state_path "#{shared_path}/pids/puma.state"
-stdout_redirect "#{shared_path}/log/puma_access.log", "#{shared_path}/log/puma_error.log", true
+pidfile '<%= shared_path %>/pids/puma.pid'
+state_path '<%= shared_path %>/pids/puma.state'
+stdout_redirect '<%= shared_path %>/log/<%= fetch(:application)%>.log', '<%= shared_path %>/log/<%= fetch(:application)%>.log', true
 
 threads <%= fetch(:puma_threads, [0, 1]).join(',')%>
 
-bind "unix:///tmp/<%= fetch(:application)%>.sock"
+bind 'unix:///tmp/<%= fetch(:application)%>.sock'
 
-activate_control_app "unix://#{shared_path}/tmp/sockets/pumactl.sock"
+activate_control_app 'unix://<%= shared_path %>/tmp/sockets/pumactl.sock'
 
 workers <%= fetch(:puma_workers, 2) %>
 
@@ -20,7 +20,7 @@ preload_app!
 
 on_restart do
   puts 'Refreshing Gemfile'
-  ENV["BUNDLE_GEMFILE"] = "<%= fetch(:bundle_gemfile, "#{current_path}/Gemfile") %>"
+  ENV['BUNDLE_GEMFILE'] = '<%= current_path %>/Gemfile'
 end
 
 before_fork do

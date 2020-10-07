@@ -4,7 +4,7 @@ namespace :puma do
   task :config do
     on roles(:web) do
       template "puma.rb.erb", "/tmp/puma_conf"
-      sudo "mv /tmp/puma_conf #{shared_path}/config"
+      sudo "mv /tmp/puma_conf #{shared_path}/config/puma.rb"
     end
   end
   namespace :sysvinit do
@@ -32,7 +32,7 @@ namespace :puma do
     task :setup do
       on roles(:web) do
         template "puma_supervisor.erb", "/tmp/puma"
-        sudo "mv /tmp/puma /etc/supervisor/conf.d/#{fetch(:application)}"
+        sudo "mv /tmp/puma /etc/supervisor/conf.d/#{fetch(:application)}.conf"
         sudo "supervisorctl reread"
         sudo "supervisorctl update" # it will auto start the application
         template "nginx_puma_config.erb", "/tmp/nginx_puma_config"

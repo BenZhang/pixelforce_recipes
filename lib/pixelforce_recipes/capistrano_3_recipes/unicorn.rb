@@ -26,7 +26,7 @@ namespace :unicorn do
     task :setup do
       on roles(:web) do
         template "unicorn_supervisor.erb", "/tmp/unicorn"
-        sudo "mv /tmp/unicorn /etc/supervisor/conf.d/#{fetch(:application)}"
+        sudo "mv /tmp/unicorn /etc/supervisor/conf.d/#{fetch(:application)}.conf"
         sudo "supervisorctl reread"
         sudo "supervisorctl update" # it will auto start the application
         template "nginx_config.erb", "/tmp/nginx_config"

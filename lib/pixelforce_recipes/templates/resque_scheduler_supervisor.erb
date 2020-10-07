@@ -5,6 +5,7 @@ directory=<%= fetch(:deploy_to) %>/current
 command=/home/<%= fetch(:user) %>/.rvm/bin/rvm <%= fetch(:rvm_ruby_version, '2.4.7') %> do bundle exec rake RAILS_ENV=<%= fetch(:rails_env) %> QUEUE='*' environment resque:scheduler 2>&1 > <%= fetch(:deploy_to) %>/shared/log/resque_scheduler.log
 autostart=<%= fetch(:autostart, 'true') %>
 autorestart=<%= fetch(:autorestart, 'true') %>
+stopsignal=QUIT
 startsecs=5
 startretries=3
 stdout_logfile=<%= fetch(:deploy_to) %>/shared/log/resque_scheduler.log

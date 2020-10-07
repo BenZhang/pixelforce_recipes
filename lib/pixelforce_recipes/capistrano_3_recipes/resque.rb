@@ -25,7 +25,7 @@ namespace :resque do
     task :setup do
       on roles(:resque) do
         template "resque_supervisor.erb", "/tmp/resque"
-        sudo "mv /tmp/resque /etc/supervisor/conf.d/resque"
+        sudo "mv /tmp/resque /etc/supervisor/conf.d/resque.conf"
         sudo "supervisorctl reread"
         sudo "supervisorctl update" # it will auto start the application
       end
