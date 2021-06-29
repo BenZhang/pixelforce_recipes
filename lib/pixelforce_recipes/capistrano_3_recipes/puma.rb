@@ -7,6 +7,7 @@ namespace :puma do
       sudo "mv /tmp/puma_conf #{shared_path}/config/puma.rb"
     end
   end
+
   namespace :sysvinit do
     task :setup do
       on roles(:web) do
@@ -28,6 +29,7 @@ namespace :puma do
       end
     end
   end
+
   namespace :supervisor do
     task :setup do
       on roles(:web) do
