@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pixelforce_recipes (2.2)
+    pixelforce_recipes (2.3)
       capistrano (> 2.0.0)
 
 GEM
@@ -9,14 +9,14 @@ GEM
   specs:
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
-    capistrano (3.14.1)
+    capistrano (3.16.0)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
-    concurrent-ruby (1.1.7)
+    concurrent-ruby (1.1.9)
     diff-lcs (1.2.5)
-    i18n (1.8.5)
+    i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     net-scp (3.0.0)
       net-ssh (>= 2.6.5, < 7.0.0)
@@ -35,7 +35,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    sshkit (1.21.0)
+    sshkit (1.21.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
 
