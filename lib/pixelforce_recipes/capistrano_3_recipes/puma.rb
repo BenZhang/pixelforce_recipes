@@ -5,6 +5,7 @@ namespace :puma do
     on roles(:web) do
       template "puma.rb.erb", "/tmp/puma_conf"
       sudo "mv /tmp/puma_conf #{shared_path}/config/puma.rb"
+      execute "mkdir -p #{shared_path}/pids"
     end
   end
 
