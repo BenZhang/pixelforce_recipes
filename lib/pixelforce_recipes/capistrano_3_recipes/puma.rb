@@ -1,66 +1,37 @@
 namespace :puma do
-
-  desc "Setup puma configuration for this application"
+  desc 'Setup puma configuration for this application'
   task :config do
     on roles(:web) do
-      template "puma.rb.erb", "/tmp/puma_conf"
+      template 'puma.rb.erb', '/tmp/puma_conf'
       sudo "mv /tmp/puma_conf #{shared_path}/config/puma.rb"
       execute "mkdir -p #{shared_path}/pids"
     end
   end
 
-  namespace :sysvinit do
+  namespace :systemd do
     task :setup do
       on roles(:web) do
-        template "puma_init.erb", "/tmp/puma"
-        sudo "mv /tmp/puma /etc/init.d/#{fetch(:application)}"
-        sudo "chmod +x /etc/init.d/#{fetch(:application)}"
-        sudo "update-rc.d #{fetch(:application)} defaults"
-        template "nginx_puma_config.erb", "/tmp/nginx_puma_config"
-        sudo "mv /tmp/nginx_puma_config /etc/nginx/sites-enabled/#{fetch(:application)}"
+        template 'puma_systemd.erb', '/tmp/puma.service'
+        sudo 'mv /tmp/puma.service /etc/systemd/system/puma.service'
+        sudo 'systemctl daemon-reload'
+        sudo 'systemctl enable puma.service'
+        sudo 'systemctl start puma.service'
       end
     end
 
-    %w[start stop restart reload].each do |command|
-      desc "#{command} puma"
-      task command do
-        on roles(:web) do
-          execute "/etc/init.d/#{fetch(:application)} #{command}"
-        end
+    task :restart do
+      on roles(:web) do
+        sudo 'systemctl reload puma'
       end
     end
   end
 
   namespace :supervisor do
-    task :setup do
+    task :uninstall do
       on roles(:web) do
-        template "puma_supervisor.erb", "/tmp/puma"
-        sudo "mv /tmp/puma /etc/supervisor/conf.d/#{fetch(:application)}.conf"
+        sudo "rm /etc/supervisor/conf.d/#{fetch(:application)}.conf"
         sudo "supervisorctl reread"
-        sudo "supervisorctl update" # it will auto start the application
-        template "nginx_puma_config.erb", "/tmp/nginx_puma_config"
-        sudo "mv /tmp/nginx_puma_config /etc/nginx/sites-enabled/#{fetch(:application)}"
-      end
-    end
-
-    task :start do
-      on roles(:web) do
-        execute "supervisorctl start #{fetch(:application)}"
-      end
-    end
-    task :stop do
-      on roles(:web) do
-        execute "supervisorctl signal INT #{fetch(:application)}"
-      end
-    end
-    task :restart do
-      on roles(:web) do
-        execute "supervisorctl signal USR1 #{fetch(:application)}"
-      end
-    end
-    task :reload do
-      on roles(:web) do
-        execute "supervisorctl signal USR2 #{fetch(:application)}"
+        sudo "supervisorctl update"
       end
     end
   end
