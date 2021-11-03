@@ -2,7 +2,6 @@ PATH
   remote: .
   specs:
     pixelforce_recipes (3.1)
-      bundler (>= 2.2.10)
       capistrano (> 2.0.0)
 
 GEM
