@@ -21,6 +21,12 @@ namespace :puma do
 
     task :restart do
       on roles(:web) do
+        sudo 'systemctl restart puma'
+      end
+    end
+
+    task :reload do
+      on roles(:web) do
         sudo 'systemctl reload puma'
       end
     end
@@ -30,8 +36,8 @@ namespace :puma do
     task :uninstall do
       on roles(:web) do
         sudo "rm /etc/supervisor/conf.d/#{fetch(:application)}.conf"
-        sudo "supervisorctl reread"
-        sudo "supervisorctl update"
+        sudo 'supervisorctl reread'
+        sudo 'supervisorctl update'
       end
     end
   end

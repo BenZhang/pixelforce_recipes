@@ -1,3 +1,3 @@
 module PixelforceRecipes
-  VERSION = "3.0"
+  VERSION = "3.1"
 end
