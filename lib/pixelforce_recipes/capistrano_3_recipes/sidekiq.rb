@@ -28,7 +28,7 @@ namespace :sidekiq do
   namespace :supervisor do
     task :uninstall do
       on roles(:sidekiq) do
-        sudo 'rm/etc/supervisor/conf.d/sidekiq.conf'
+        sudo 'rm /etc/supervisor/conf.d/sidekiq.conf'
         sudo 'supervisorctl reread'
         sudo 'supervisorctl update'
       end
