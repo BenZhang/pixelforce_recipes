@@ -1,5 +1,5 @@
 <%= fetch(:deploy_to) %>/shared/log/*.log {
-  su deploy deploy
+  su <%= fetch(:user) %> <%= fetch(:user) %>
   maxsize 1G
   weekly
   missingok
