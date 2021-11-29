@@ -5,6 +5,8 @@ namespace :puma do
       template 'puma.rb.erb', '/tmp/puma_conf'
       sudo "mv /tmp/puma_conf #{shared_path}/config/puma.rb"
       execute "mkdir -p #{shared_path}/pids"
+      template "nginx_puma_config.erb", "/tmp/nginx_puma_config"
+      run "#{sudo} mv /tmp/nginx_puma_config /etc/nginx/sites-enabled/#{application}"
     end
   end
 
