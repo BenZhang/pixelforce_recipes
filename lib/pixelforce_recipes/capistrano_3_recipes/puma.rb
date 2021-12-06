@@ -42,26 +42,5 @@ namespace :puma do
         sudo 'supervisorctl update'
       end
     end
-
-    task :start do
-      on roles(:web) do
-        execute "supervisorctl start #{fetch(:application)}"
-      end
-    end
-    task :stop do
-      on roles(:web) do
-        execute "supervisorctl signal INT #{fetch(:application)}"
-      end
-    end
-    task :restart do
-      on roles(:web) do
-        execute "supervisorctl signal USR1 #{fetch(:application)}"
-      end
-    end
-    task :reload do
-      on roles(:web) do
-        execute "supervisorctl signal USR2 #{fetch(:application)}"
-      end
-    end
   end
 end
