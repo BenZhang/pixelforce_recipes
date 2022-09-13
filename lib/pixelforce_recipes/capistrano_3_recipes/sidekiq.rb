@@ -3,7 +3,7 @@ namespace :sidekiq do
 
   namespace :systemd do
     task :setup do
-      on roles(:web) do
+      on roles(:app) do
         template 'sidekiq_systemd.erb', '/tmp/sidekiq.service'
         sudo 'mv /tmp/sidekiq.service /etc/systemd/system/sidekiq.service'
         sudo 'systemctl daemon-reload'
@@ -13,13 +13,13 @@ namespace :sidekiq do
     end
 
     task :unload do
-      on roles(:web) do
+      on roles(:app) do
         sudo 'systemctl kill -s TSTP sidekiq'
       end
     end
 
     task :restart do
-      on roles(:web) do
+      on roles(:app) do
         sudo 'systemctl restart sidekiq'
       end
     end

@@ -1,7 +1,7 @@
 namespace :elbas do
   desc 'Sync files before creating AMI'
   task :sync do
-    on roles(:web) do
+    on roles(:app) do
       execute "sync"
     end
   end
