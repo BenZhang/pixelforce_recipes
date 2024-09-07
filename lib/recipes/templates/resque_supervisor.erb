@@ -1,0 +1,13 @@
+[program:resque]
+user=<%= fetch(:user) %>
+environment=HOME="/home/<%= fetch(:user) %>",USER="<%= fetch(:user) %>"
+directory=<%= fetch(:deploy_to) %>/current
+command=/home/<%= fetch(:user) %>/.rvm/bin/rvm <%= fetch(:rvm_ruby_version, '2.4.7') %> do bundle exec rake RAILS_ENV=<%= fetch(:rails_env) %> QUEUE=critical,default,mailers,low environment resque:work 2>&1 > <%= fetch(:deploy_to) %>/shared/log/resque.log
+autostart=<%= fetch(:autostart, 'true') %>
+autorestart=<%= fetch(:autorestart, 'true') %>
+stopsignal=QUIT
+startsecs=5
+startretries=3
+stdout_logfile=<%= fetch(:deploy_to) %>/shared/log/resque.log
+stdout_logfile_maxbytes=<%= fetch(:logfile_maxbytes, '1GB') %>
+stdout_logfile_backups=<%= fetch(:logfile_backups, '10') %>

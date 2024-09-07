@@ -23,5 +23,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "elbas"
-  spec.add_dependency(%q<capistrano>, ["> 2.0.0"])
+  spec.add_dependency(%q<capistrano>, ["> 3.0.0"])
 end

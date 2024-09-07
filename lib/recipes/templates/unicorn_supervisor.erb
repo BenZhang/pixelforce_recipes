@@ -1,0 +1,13 @@
+[program:<%= fetch(:application) %>]
+user=<%= fetch(:user) %>
+environment=HOME="/home/<%= fetch(:user) %>",USER="<%= fetch(:user) %>"
+directory=<%= fetch(:deploy_to) %>/current
+command=/home/<%= fetch(:user) %>/.rvm/bin/rvm <%= fetch(:rvm_ruby_version, '2.4.7') %> do bundle exec unicornherder -u unicorn -p <%= fetch(:deploy_to) %>/shared/pids/unicorn.pid -- -c config/unicorn.rb -E <%= fetch(:rails_env) %>
+autostart=<%= fetch(:autostart, 'true') %>
+autorestart=<%= fetch(:autorestart, 'true') %>
+startsecs=5
+startretries=3
+stderr_logfile=<%= fetch(:deploy_to) %>/shared/log/<%= fetch(:application) %>.log
+stdout_logfile=<%= fetch(:deploy_to) %>/shared/log/<%= fetch(:rails_env) %>.log
+stdout_logfile_maxbytes=<%= fetch(:logfile_maxbytes, '5GB') %>
+stdout_logfile_backups=<%= fetch(:logfile_backups, '10') %>
