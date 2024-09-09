@@ -21,11 +21,27 @@ module ResponseHandler
     render json: {}, status: :no_content
   end
 
-  def render_error(status, message, data = nil)
+  def render_error(status, message, errors = nil, source: nil, meta: {})
     response = {
-      errors: [message]
+      'status' => status.to_s,
+      'source' => source,
+      'errors' => {},
+      'meta' => meta
     }
-    response = response.merge(data) if data
+  
+    if errors.is_a?(ActiveModel::Errors)
+      errors.each do |error|
+        attribute = error.attribute.to_s
+        error_message = error.message
+        response['errors'][attribute] ||= []
+        response['errors'][attribute] << error_message
+      end
+    elsif errors.is_a?(Hash)
+      response['errors'] = errors
+    else
+      response['errors'] = { 'server' => message }
+    end
+  
     render json: response, status: status
   end
 end

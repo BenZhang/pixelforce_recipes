@@ -16,24 +16,6 @@ module Admin
 
       private
 
-      def render_error(status, message, validation_errors = nil)
-        errors = {}
-        errors['root'] = { 'serverError': message } if message.present?
-        if validation_errors.is_a?(ActiveModel::Errors)
-          data = {}
-          validation_errors.to_hash.each do |key, value|
-            data[key] = value.join(', ')
-          end
-
-          errors.merge!(data) if data.present?
-        end
-
-        response = {
-          errors:
-        }
-        render status:, json: response
-      end
-
       def set_response_format
         if request.format.to_s != 'text/csv'
           request.format = :json
