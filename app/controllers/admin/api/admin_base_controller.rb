@@ -11,7 +11,7 @@ module Admin
       before_action :prepare_pagination_params
 
       def authenticate_admin_user!
-        authenticate_admin_api_v1_admin_user!
+        authenticate_admin_api_admin_user!
       end
 
       private
