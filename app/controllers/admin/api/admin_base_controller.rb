@@ -6,6 +6,8 @@ module Admin
       include RequestHeaderHandler
       include ExceptionHandler
 
+      layout false
+
       before_action :authenticate_admin_user!
       before_action :format_params
       before_action :prepare_pagination_params
