@@ -3,6 +3,7 @@ module ResponseHandler
 
   included do
     before_action :config_default_response_settings
+    layout false
   end
 
   def config_default_response_settings
@@ -10,7 +11,10 @@ module ResponseHandler
   end
 
   def set_response_format
-    self.content_type = 'application/json'
+    if request.format.to_s != 'text/csv'
+      request.format = :json
+      self.content_type = 'application/json'
+    end
   end
 
   def render_success
