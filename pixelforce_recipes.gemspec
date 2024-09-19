@@ -22,6 +22,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 2.1"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "elbas"
+  spec.add_dependency "elbas"
+  spec.add_dependency 'devise'
+  spec.add_dependency 'devise_token_auth'
   spec.add_dependency(%q<capistrano>, ["> 3.0.0"])
 end
