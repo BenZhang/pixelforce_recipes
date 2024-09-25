@@ -11,12 +11,41 @@ module Admin
       before_action :authenticate_admin_user!
       before_action :format_params
       before_action :prepare_pagination_params
+      after_action :track_admin_request
 
       def authenticate_admin_user!
         authenticate_admin_api_admin_user!
       end
 
+      def current_admin_user
+        current_admin_api_admin_user
+      end
+
+      def log_target
+        @log_target
+      end
+
+      def admin_action_on_user_id
+        @admin_action_on_user_id = if log_target.present?
+          if log_target.is_a?(User)
+            log_target.id
+          else
+            log_target.user_id
+          end
+        end
+      end
+
       private
+
+      def track_admin_request
+        unless params[:action] == 'index' || params[:action] == 'show'
+          ahoy.track 'AdminLog', {
+            params:   request.filtered_parameters,
+            url:      request.original_url,
+            response: response.status
+          }
+        end
+      end
 
       def set_response_format
         if request.format.to_s != 'text/csv'
